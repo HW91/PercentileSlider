@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Ranking Slider</title>
+  <title>Income Percentile Slider</title>
   <style>
     body { font-family: Arial, sans-serif; background: #1e1e1e; color: #fff; display: flex; flex-direction: column; align-items: center; padding-top: 50px; }
     .slider-container { width: 80%; max-width: 500px; text-align: center; }
@@ -15,38 +15,55 @@
 </head>
 <body>
   <div class="slider-container">
-    <label for="ratingSlider">Rating: <span id="ratingValue">932</span></label>
-    <input type="range" min="0" max="1200" value="932" id="ratingSlider" />
+    <label for="incomeSlider">Income: $<span id="incomeValue">100000</span></label>
+    <input type="range" min="0" max="1000000" value="100000" step="1000" id="incomeSlider" />
     
     <div class="box">
       <div class="item">
-        <div>Global Rank</div>
-        <strong id="globalRank">#4514862</strong>
+        <div>Income</div>
+        <strong id="incomeLabel">$100,000</strong>
       </div>
       <div class="item">
         <div>Percentile</div>
-        <strong id="percentile">79.1%</strong>
+        <strong id="percentile">81%</strong>
       </div>
     </div>
   </div>
 
   <script>
-    const slider = document.getElementById('ratingSlider');
-    const ratingValue = document.getElementById('ratingValue');
-    const globalRank = document.getElementById('globalRank');
-    const percentile = document.getElementById('percentile');
+    const slider = document.getElementById('incomeSlider');
+    const incomeValue = document.getElementById('incomeValue');
+    const incomeLabel = document.getElementById('incomeLabel');
+    const percentileLabel = document.getElementById('percentile');
 
-    const maxUsers = 5700000; // Estimate total user base
+    const data = [
+      { income: 0, percentile: 0 },
+      { income: 25000, percentile: 25 },
+      { income: 50000, percentile: 50 },
+      { income: 70000, percentile: 65 },
+      { income: 100000, percentile: 81 },
+      { income: 135605, percentile: 90 },
+      { income: 187506, percentile: 95 },
+      { income: 407500, percentile: 99 },
+      { income: 1000000, percentile: 99.7 }
+    ];
+
+    function getPercentile(income) {
+      for (let i = 0; i < data.length - 1; i++) {
+        const low = data[i], high = data[i + 1];
+        if (income >= low.income && income <= high.income) {
+          const ratio = (income - low.income) / (high.income - low.income);
+          return (low.percentile + ratio * (high.percentile - low.percentile)).toFixed(1);
+        }
+      }
+      return income >= data[data.length - 1].income ? data[data.length - 1].percentile : 0;
+    }
 
     slider.addEventListener('input', () => {
-      const rating = parseInt(slider.value);
-      ratingValue.textContent = rating;
-
-      const percentileValue = (rating / 1200) * 100;
-      percentile.textContent = `${percentileValue.toFixed(1)}%`;
-
-      const rank = Math.round(maxUsers * (1 - rating / 1200));
-      globalRank.textContent = `#${rank.toLocaleString()}`;
+      const income = parseInt(slider.value);
+      incomeValue.textContent = income.toLocaleString();
+      incomeLabel.textContent = `$${income.toLocaleString()}`;
+      percentileLabel.textContent = `${getPercentile(income)}%`;
     });
   </script>
 </body>
