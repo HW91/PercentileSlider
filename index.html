@@ -5,30 +5,61 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Income Percentile Slider</title>
   <style>
-    body { font-family: Arial, sans-serif; background: #1e1e1e; color: #fff; display: flex; flex-direction: column; align-items: center; padding-top: 50px; }
-    .income-header { font-size: 2rem; margin-bottom: 10px; }
-    .income-value { font-size: 2.5rem; color: #fff; }
-    .slider-container { width: 80%; max-width: 500px; text-align: center; }
-    .box { display: flex; justify-content: space-around; background: #2a2a2a; padding: 20px; border-radius: 10px; margin-top: 20px; }
-    .item { text-align: center; }
-    input[type=range] { width: 100%; }
-    .up { color: #4caf50; }
+    body {
+      font-family: Arial, sans-serif;
+      background: #1e1e1e;
+      color: #fff;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding-top: 50px;
+    }
+    .income-header {
+      font-size: 2rem;
+      margin-bottom: 10px;
+    }
+    .income-value {
+      font-size: 2.5rem;
+      color: #fff;
+    }
+    .slider-container {
+      width: 80%;
+      max-width: 500px;
+      text-align: center;
+    }
+    .box {
+      display: flex;
+      justify-content: space-around;
+      background: #2a2a2a;
+      padding: 20px;
+      border-radius: 10px;
+      margin-top: 20px;
+    }
+    .item {
+      text-align: center;
+    }
+    input[type=range] {
+      width: 100%;
+    }
+    .up {
+      color: #4caf50;
+    }
   </style>
 </head>
 <body>
-  <div class="income-header">Enter Your Income</div>
-  <div class="income-value" id="incomeDisplay">$50,000</div>
+  <div class="income-header">Income</div>
+  <div class="income-value" id="incomeDisplay">$100,000</div>
 
   <div class="slider-container">
-    <input type="range" min="0" max="1000000" value="50000" step="1000" id="incomeSlider" />
+    <input type="range" min="0" max="1000000" value="100000" step="1000" id="incomeSlider" />
     <div class="box">
       <div class="item">
-        <div>US Income Rank</div>
-        <strong id="rank">#85,000,000</strong>
+        <div>Global Rank</div>
+        <strong id="rank">#29,646,000</strong>
       </div>
       <div class="item">
         <div>Percentile</div>
-        <strong id="percentile">50%</strong>
+        <strong id="percentile">81%</strong>
       </div>
     </div>
   </div>
@@ -39,6 +70,7 @@
     const percentileLabel = document.getElementById('percentile');
     const rank = document.getElementById('rank');
 
+    // Data points based on IRS SOI data for illustrative purposes
     const data = [
       { income: 0, percentile: 0 },
       { income: 15000, percentile: 10 },
@@ -65,7 +97,7 @@
     }
 
     function getRank(percentile) {
-      const total = 170000000;
+      const total = 153800000; // Total number of returns filed in 2021
       return `#${Math.round(total * (1 - percentile / 100)).toLocaleString()}`;
     }
 
