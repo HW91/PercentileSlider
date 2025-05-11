@@ -27,10 +27,6 @@
         <strong id="rank">#4514862</strong>
       </div>
       <div class="item">
-        <div>Friends Rank</div>
-        <strong>#1</strong>
-      </div>
-      <div class="item">
         <div>Percentile</div>
         <strong id="percentile">81%</strong>
       </div>
@@ -67,7 +63,7 @@
     }
 
     function getRank(percentile) {
-      const maxRank = 5700000; // estimated adult earners in IRS stats
+      const maxRank = 5700000;
       return `#${Math.round(maxRank * (1 - percentile / 100)).toLocaleString()}`;
     }
 
